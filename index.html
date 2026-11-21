@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f6f7f2" />
+  <title>SplitEasy — shared expenses, made easy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="SplitEasy home"><span class="brand-mark">s</span><span>split<span class="brand-light">easy</span></span></a>
+      <div class="side-label">YOUR SPACE</div>
+      <button class="nav-item active"><span class="nav-icon">▦</span>Overview</button>
+      <button class="nav-item" id="scrollPeople"><span class="nav-icon">♧</span>People <span class="nav-count" id="peopleCount">0</span></button>
+      <div class="side-bottom"><div class="help-icon">?</div><div><strong>Keep it simple.</strong><p>Good friends, clear splits.</p></div></div>
+      <div class="side-foot">MADE FOR SHARING <span>✳</span></div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar"><div class="breadcrumb">My groups <span>/</span> <strong id="crumbName">Weekend crew</strong></div><div class="profile"><span class="status-dot"></span> Local workspace <span class="avatar">Y</span></div></header>
+      <section class="page-wrap">
+        <div class="eyebrow"><span class="eyebrow-line"></span> YOUR GROUP</div>
+        <div class="hero-row"><div><h1 id="groupTitle">Weekend crew<span class="edit-title" id="editGroup" title="Rename group">✎</span></h1><p class="subhead">One trip, one table, no awkward math.</p></div><button class="outline-button" id="shareButton"><span>↗</span> Share summary</button></div>
+        <section class="people-card card" id="peopleSection">
+          <div class="section-heading"><div><h2>The crew <span class="muted-count" id="crewCount">0 people</span></h2><p>Add everyone who’s in on the expenses.</p></div><button class="text-button" id="addPersonButton">＋ Add person</button></div>
+          <div class="people-list" id="peopleList"></div>
+          <form class="inline-form hidden" id="personForm"><input id="personName" maxlength="24" placeholder="Friend’s name" autocomplete="off" required><button class="primary-button" type="submit">Add to crew</button><button class="icon-button" type="button" id="cancelPerson" aria-label="Cancel">×</button></form>
+        </section>
+
+        <div class="dashboard-grid">
+          <section class="card expense-card">
+            <div class="section-heading"><div><h2>Expenses <span class="muted-count" id="expenseCount">0 items</span></h2><p>Every little thing, in one place.</p></div><span class="receipt-icon">▤</span></div>
+            <form id="expenseForm" class="expense-form">
+              <label class="field-label" for="expenseTitle">WHAT WAS IT?</label>
+              <input id="expenseTitle" class="input" maxlength="60" placeholder="e.g. Dinner at the beach" required>
+              <div class="form-row"><div class="field-grow"><label class="field-label" for="expenseAmount">TOTAL AMOUNT</label><div class="money-input"><span>₹</span><input id="expenseAmount" type="number" min="0.01" step="0.01" placeholder="0.00" required></div></div><div class="field-grow"><label class="field-label" for="paidBy">PAID BY</label><select id="paidBy" class="input" required></select></div></div>
+              <button class="primary-button add-expense" type="submit"><span>＋</span> Add expense</button>
+              <p class="form-hint" id="formHint">Add at least one person to start splitting.</p>
+            </form>
+            <div class="expense-list" id="expenseList"></div>
+          </section>
+          <section class="card balance-card">
+            <div class="section-heading"><div><h2>The breakdown</h2><p>Everyone’s share, at a glance.</p></div><span class="balance-icon">↗</span></div>
+            <div class="total-block"><span class="field-label">TOTAL SPENT</span><div class="total-amount" id="totalSpent">₹0.00</div><span class="total-caption" id="totalCaption">Across 0 expenses</span></div>
+            <div class="shares-heading"><span>PERSON</span><span>SHARE</span></div>
+            <div class="share-list" id="shareList"></div>
+            <div class="settle-section"><div class="settle-title">SETTLE UP <span class="settle-spark">✳</span></div><div id="settlementList" class="settlement-list"></div></div>
+            <p class="balance-note"><span>ⓘ</span> Shares are split equally across the crew.</p>
+          </section>
+        </div>
+        <footer class="page-footer">A LITTLE LESS MATH, A LOT MORE <span>✳</span></footer>
+      </section>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
