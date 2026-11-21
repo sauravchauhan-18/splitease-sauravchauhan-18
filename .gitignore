@@ -1,2 +1,7 @@
 .DS_Store
 Thumbs.db
+node_modules/
+client/dist/
+server/.env
+client/.env
+npm-debug.log*

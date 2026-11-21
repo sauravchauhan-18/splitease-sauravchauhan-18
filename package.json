@@ -1,0 +1,18 @@
+{
+  "name": "spliteasy",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Week 2 MERN milestone for SplitEasy",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -n api,client -c green,cyan \"npm run dev --workspace=server\" \"npm run dev --workspace=client\"",
+    "start": "npm run start --workspace=server",
+    "build": "npm run build --workspace=client"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
