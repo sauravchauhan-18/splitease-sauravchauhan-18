@@ -26,7 +26,6 @@ export const api = {
   people: {
     list: () => request('/people'),
     create: (data) => request('/people', json('POST', data)),
-    update: (id, data) => request(`/people/${id}`, json('PUT', data)),
     remove: (id) => request(`/people/${id}`, { method: 'DELETE' }),
   },
   expenses: {

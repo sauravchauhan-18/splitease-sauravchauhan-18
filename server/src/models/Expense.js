@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const expenseSchema = new mongoose.Schema({
-  title: {
+  description: {
     type: String,
     required: [true, 'An expense description is required.'],
     trim: true,

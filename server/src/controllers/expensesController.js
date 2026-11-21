@@ -9,24 +9,25 @@ export async function listExpenses(req, res) {
 }
 
 export async function createExpense(req, res) {
-  const { title, amount, paidBy, date } = req.body;
+  const { amount, paidBy, date } = req.body;
+  const description = req.body.description ?? req.body.title;
   const payer = await Person.findById(paidBy);
   if (!payer) return res.status(400).json({ message: 'Choose a person who is in the group.' });
 
-  const expense = await Expense.create({ title, amount, paidBy, ...(date ? { date } : {}) });
+  const expense = await Expense.create({ description, amount, paidBy, ...(date ? { date } : {}) });
   res.status(201).json(await withPayer(Expense.findById(expense.id)));
 }
 
 export async function updateExpense(req, res) {
-  const { title, amount, paidBy, date } = req.body;
+  const { amount, paidBy, date } = req.body;
+  const description = req.body.description ?? req.body.title;
   if (paidBy !== undefined && !await Person.exists({ _id: paidBy })) {
     return res.status(400).json({ message: 'Choose a person who is in the group.' });
   }
 
   const updates = {};
-  for (const key of ['title', 'amount', 'paidBy', 'date']) {
-    if (req.body[key] !== undefined) updates[key] = req.body[key];
-  }
+  if (description !== undefined) updates.description = description;
+  for (const key of ['amount', 'paidBy', 'date']) if (req.body[key] !== undefined) updates[key] = req.body[key];
   const expense = await withPayer(Expense.findByIdAndUpdate(req.params.id, updates, {
     new: true,
     runValidators: true,

@@ -13,7 +13,7 @@ export function errorHandler(error, req, res, next) {
   }
 
   if (error.code === 11000) {
-    return res.status(409).json({ message: 'That record already exists.' });
+    return res.status(409).json({ message: 'A person with that name already exists.' });
   }
 
   console.error(error);

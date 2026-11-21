@@ -8,6 +8,12 @@ const personSchema = new mongoose.Schema({
     minlength: [1, 'A name cannot be empty.'],
     maxlength: [24, 'Names can be at most 24 characters.'],
   },
+  nameKey: {
+    type: String,
+    required: true,
+    unique: true,
+    select: false,
+  },
   color: {
     type: String,
     default: '#e6f0df',

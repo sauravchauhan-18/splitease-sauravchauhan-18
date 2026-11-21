@@ -22,21 +22,20 @@ SplitEasy is a shared-expense tracker. Week 1 is the standalone browser version 
 
 ## API
 
-The API uses Express routing and Mongoose models. The email mentions seven routes; complete create, list, edit, and delete coverage for both models needs eight method/path combinations, so this implementation includes all eight.
+The API follows the seven routes in the Week 2 brief. Person records can be added, listed, and removed; expense records can be added, listed, edited, and removed.
 
 | Method | Path | Purpose |
 | --- | --- | --- |
 | GET | `/api/health` | Check that the API is running |
 | GET | `/api/people` | List people |
 | POST | `/api/people` | Add a person (`name`, optional `color`) |
-| PUT | `/api/people/:id` | Edit a person |
-| DELETE | `/api/people/:id` | Delete a person with no expenses |
+| DELETE | `/api/people/:id` | Delete a person and their expenses |
 | GET | `/api/expenses` | List expenses, including payer details |
-| POST | `/api/expenses` | Add an expense (`title`, `amount`, `paidBy`) |
+| POST | `/api/expenses` | Add an expense (`description`, `amount`, `paidBy`) |
 | PUT | `/api/expenses/:id` | Edit an expense |
 | DELETE | `/api/expenses/:id` | Delete an expense |
 
-An expense payer must be an existing person. A person cannot be deleted while they are still linked to expenses. Validation and not-found errors return JSON messages.
+Person names are unique (case-insensitive). An expense payer must be an existing person. Deleting a person also removes their expenses. Validation and not-found errors return JSON messages.
 
 Import `postman/SplitEasy Week 2.postman_collection.json` into Postman to try the API. Create a person first and copy its `_id` into the collection's `personId` variable before adding an expense.
 

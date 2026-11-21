@@ -2,23 +2,119 @@
   "info": {
     "_postman_id": "6a9e84c0-8a9a-4a8a-9b5c-1c2d71b90001",
     "name": "SplitEasy Week 2 API",
-    "description": "CRUD requests for the Person and Expense models. Run create/list/update/delete in order; copy a returned person _id into the expense requests.",
+    "description": "CRUD requests for the Person and Expense models. Run the seven listed routes in order; copy a returned person _id into the expense requests.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
-  "variable": [{ "key": "baseUrl", "value": "http://localhost:5000" }, { "key": "personId", "value": "replace-with-person-id" }, { "key": "expenseId", "value": "replace-with-expense-id" }],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000"
+    },
+    {
+      "key": "personId",
+      "value": "replace-with-person-id"
+    },
+    {
+      "key": "expenseId",
+      "value": "replace-with-expense-id"
+    }
+  ],
   "item": [
-    { "name": "Health", "request": { "method": "GET", "url": "{{baseUrl}}/api/health" } },
-    { "name": "People", "item": [
-      { "name": "Add person", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"name\": \"Aarav\",\n  \"color\": \"#e6f0df\"\n}" }, "url": "{{baseUrl}}/api/people" } },
-      { "name": "List people", "request": { "method": "GET", "url": "{{baseUrl}}/api/people" } },
-      { "name": "Edit person", "request": { "method": "PUT", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"name\": \"Aarav K.\"\n}" }, "url": "{{baseUrl}}/api/people/{{personId}}" } },
-      { "name": "Delete person", "request": { "method": "DELETE", "url": "{{baseUrl}}/api/people/{{personId}}" } }
-    ] },
-    { "name": "Expenses", "item": [
-      { "name": "Add expense", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"title\": \"Mess bill\",\n  \"amount\": 2400,\n  \"paidBy\": \"{{personId}}\"\n}" }, "url": "{{baseUrl}}/api/expenses" } },
-      { "name": "List expenses", "request": { "method": "GET", "url": "{{baseUrl}}/api/expenses" } },
-      { "name": "Edit expense", "request": { "method": "PUT", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"title\": \"Monthly mess bill\",\n  \"amount\": 2500\n}" }, "url": "{{baseUrl}}/api/expenses/{{expenseId}}" } },
-      { "name": "Delete expense", "request": { "method": "DELETE", "url": "{{baseUrl}}/api/expenses/{{expenseId}}" } }
-    ] }
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/health"
+      }
+    },
+    {
+      "name": "People",
+      "item": [
+        {
+          "name": "Add person",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Aarav\",\n  \"color\": \"#e6f0df\"\n}"
+            },
+            "url": "{{baseUrl}}/api/people"
+          }
+        },
+        {
+          "name": "List people",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/people"
+          }
+        },
+        {
+          "name": "Delete person",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/people/{{personId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Expenses",
+      "item": [
+        {
+          "name": "Add expense",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Mess bill\",\n  \"amount\": 2400,\n  \"paidBy\": \"{{personId}}\"\n}"
+            },
+            "url": "{{baseUrl}}/api/expenses"
+          }
+        },
+        {
+          "name": "List expenses",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/expenses"
+          }
+        },
+        {
+          "name": "Edit expense",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Monthly mess bill\",\n  \"amount\": 2500\n}"
+            },
+            "url": "{{baseUrl}}/api/expenses/{{expenseId}}"
+          }
+        },
+        {
+          "name": "Delete expense",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/expenses/{{expenseId}}"
+          }
+        }
+      ]
+    }
   ]
 }

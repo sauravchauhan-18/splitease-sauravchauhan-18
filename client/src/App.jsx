@@ -108,17 +108,11 @@ function App() {
     await runAction(() => api.people.remove(getId(person)), `${person.name} removed.`);
   }
 
-  async function editPerson(person) {
-    const name = window.prompt('Update this person’s name', person.name);
-    if (!name?.trim() || name.trim() === person.name) return;
-    await runAction(() => api.people.update(getId(person), { name: name.trim() }), 'Person updated.');
-  }
-
   async function saveExpense(event) {
     event.preventDefault();
     const amount = Number(expense.amount);
     if (!expense.title.trim() || !Number.isFinite(amount) || amount <= 0 || !expense.paidBy) return;
-    const body = { title: expense.title.trim(), amount: Math.round(amount * 100) / 100, paidBy: expense.paidBy };
+    const body = { description: expense.title.trim(), amount: Math.round(amount * 100) / 100, paidBy: expense.paidBy };
     const success = editingExpense
       ? await runAction(() => api.expenses.update(editingExpense, body), 'Expense updated.')
       : await runAction(() => api.expenses.create(body), 'Expense added and split equally.');
@@ -130,7 +124,7 @@ function App() {
 
   function startEditExpense(item) {
     setEditingExpense(getId(item));
-    setExpense({ title: item.title, amount: String(item.amount), paidBy: getId(item.paidBy) || item.paidBy });
+    setExpense({ title: item.description, amount: String(item.amount), paidBy: getId(item.paidBy) || item.paidBy });
     document.getElementById('expenseTitle')?.focus();
   }
 
@@ -152,7 +146,7 @@ function App() {
       `Total spent: ${money(breakdown.total)}`,
       ...breakdown.balances.map(({ person, amount }) => `${person.name}: share ${money(breakdown.share)} · ${amount > 0.005 ? `gets back ${money(amount)}` : amount < -0.005 ? `owes ${money(-amount)}` : 'all square'}`),
       '', 'Expenses:',
-      ...expenses.map((item) => `• ${item.title} — ${money(item.amount)} (${item.paidBy?.name || 'Someone'} paid)`),
+      ...expenses.map((item) => `• ${item.description} — ${money(item.amount)} (${item.paidBy?.name || 'Someone'} paid)`),
     ];
     try {
       await navigator.clipboard.writeText(lines.join('\n'));
@@ -184,7 +178,7 @@ function App() {
           <section className="people-card card" id="peopleSection">
             <div className="section-heading"><div><h2>The crew <span className="muted-count">{people.length} {people.length === 1 ? 'person' : 'people'}</span></h2><p>Add everyone who’s in on the expenses.</p></div></div>
             <form className="inline-form" onSubmit={addPerson}><input aria-label="Friend’s name" maxLength="24" placeholder="Friend’s name" value={personName} onChange={(event) => setPersonName(event.target.value)} required /><button className="primary-button" type="submit" disabled={apiStatus !== 'online'}>＋ Add person</button></form>
-            <div className="people-list">{isLoading ? <div className="empty-note">Loading your crew…</div> : people.length ? people.map((person, index) => <div className="person-chip" key={getId(person)}><span className="person-avatar" style={{ background: person.color || colors[index % colors.length], color: '#526550' }}>{initials(person.name)}</span><span>{person.name}</span><button className="edit-person" type="button" onClick={() => editPerson(person)} title={`Edit ${person.name}`} aria-label={`Edit ${person.name}`}>✎</button><button className="remove-person" type="button" onClick={() => removePerson(person)} title={`Remove ${person.name}`} aria-label={`Remove ${person.name}`}>×</button></div>) : <div className="empty-note">Your crew will show up here.</div>}</div>
+            <div className="people-list">{isLoading ? <div className="empty-note">Loading your crew…</div> : people.length ? people.map((person, index) => <div className="person-chip" key={getId(person)}><span className="person-avatar" style={{ background: person.color || colors[index % colors.length], color: '#526550' }}>{initials(person.name)}</span><span>{person.name}</span><button className="remove-person" type="button" onClick={() => removePerson(person)} title={`Remove ${person.name}`} aria-label={`Remove ${person.name}`}>×</button></div>) : <div className="empty-note">Your crew will show up here.</div>}</div>
           </section>
 
           <div className="dashboard-grid">
@@ -198,7 +192,7 @@ function App() {
                 {editingExpense && <button className="cancel-edit" type="button" onClick={() => { setEditingExpense(null); setExpense({ title: '', amount: '', paidBy: getId(people[0]) || '' }); }}>Cancel edit</button>}
                 <p className="form-hint">{people.length ? 'Split equally across everyone in the crew.' : 'Add at least one person to start splitting.'}</p>
               </form>
-              <div className="expense-list">{isLoading ? <div className="empty-note">Loading expenses…</div> : expenses.length ? expenses.map((item, index) => <div className="expense-row" key={getId(item)}><div className="expense-symbol" style={{ background: colors[index % colors.length] }}>{expenseIcons[index % expenseIcons.length]}</div><div className="expense-main"><div className="expense-name">{item.title}</div><div className="expense-meta">Paid by {item.paidBy?.name || 'Someone'} · {new Date(item.date || item.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</div></div><div className="expense-value">{money(item.amount)}</div><button className="edit-person" type="button" onClick={() => startEditExpense(item)} title={`Edit ${item.title}`} aria-label={`Edit ${item.title}`}>✎</button><button className="delete-expense" type="button" onClick={() => removeExpense(item)} title="Delete expense" aria-label={`Delete ${item.title}`}>×</button></div>) : <div className="empty-note">Your expenses will appear here.</div>}</div>
+              <div className="expense-list">{isLoading ? <div className="empty-note">Loading expenses…</div> : expenses.length ? expenses.map((item, index) => <div className="expense-row" key={getId(item)}><div className="expense-symbol" style={{ background: colors[index % colors.length] }}>{expenseIcons[index % expenseIcons.length]}</div><div className="expense-main"><div className="expense-name">{item.description}</div><div className="expense-meta">Paid by {item.paidBy?.name || 'Someone'} · {new Date(item.date || item.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</div></div><div className="expense-value">{money(item.amount)}</div><button className="edit-person" type="button" onClick={() => startEditExpense(item)} title={`Edit ${item.description}`} aria-label={`Edit ${item.description}`}>✎</button><button className="delete-expense" type="button" onClick={() => removeExpense(item)} title="Delete expense" aria-label={`Delete ${item.description}`}>×</button></div>) : <div className="empty-note">Your expenses will appear here.</div>}</div>
             </section>
 
             <section className="card balance-card">
